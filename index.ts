@@ -10,9 +10,9 @@ config();
 
 (async () => {
   await createConnection({
-    type: "postgres",
-    host: "localhost",
-    port: 5432,
+    type: process.env.TYPEORM_CONNECTION! as any,
+    host: process.env.TYPEORM_HOST,
+    port: +process.env.TYPEORM_PORT!,
     username: process.env.TYPEORM_USERNAME,
     password: process.env.TYPEORM_PASSWORD,
     database: process.env.TYPEORM_DATABASE,
@@ -25,7 +25,9 @@ config();
   //   );
   const repository = new DemoTypeormRepository();
   const demo = await repository.findAll(
-    factory.ofId(2).or(factory.ofIds([1, 3, 5]).and(factory.ofName("Julio")))
+    factory
+      .ofName("Juan")
+      .or(factory.ofName("Julio").and(factory.ofIds([1, 3, 5])))
   );
   console.log(demo);
 })();

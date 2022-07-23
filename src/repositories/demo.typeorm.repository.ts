@@ -1,7 +1,7 @@
 import { Demo } from "../demo";
 import { DemoEntity } from "../entities/demo.entity";
-import { TypeormSpecification } from "../specifications/typeorm.specification";
 import { DemoRepository } from "./../demo.repository";
+import { TypeormSpecification } from "../specifications/typeorm.specification";
 
 export class DemoTypeormRepository implements DemoRepository {
   async findOne(

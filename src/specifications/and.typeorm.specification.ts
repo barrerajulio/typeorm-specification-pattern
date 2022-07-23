@@ -1,6 +1,7 @@
-import { TypeormSpecification } from "./typeorm.specification";
-import { CompositeTypeormSpecification } from "./index";
 import { Brackets, SelectQueryBuilder } from "typeorm";
+
+import { CompositeTypeormSpecification } from "./index";
+import { TypeormSpecification } from "./typeorm.specification";
 
 export class AndTypeormSpecification<T>
   extends CompositeTypeormSpecification<T>
