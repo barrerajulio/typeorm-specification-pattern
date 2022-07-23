@@ -1,20 +1,17 @@
-import { Brackets, SelectQueryBuilder } from "typeorm";
+import { Brackets } from "typeorm";
 
 import { CompositeTypeormSpecification } from "../specifications";
 import { TypeormSpecification } from "../specifications/typeorm.specification";
 
-export class OfIdTypeormSpecification<T>
-  extends CompositeTypeormSpecification<T>
-  implements TypeormSpecification<T>
+export class OfIdTypeormSpecification
+  extends CompositeTypeormSpecification
+  implements TypeormSpecification
 {
-  constructor(
-    protected readonly queryBuilder: SelectQueryBuilder<any>,
-    private readonly id: number
-  ) {
-    super(queryBuilder);
+  constructor(private readonly id: number) {
+    super();
   }
 
   getConditions(): Brackets {
-    return new Brackets((qb) => qb.where("id = :id", { id: this.id }));
+    return new Brackets((qb) => qb.where("demo.id = :id", { id: this.id }));
   }
 }

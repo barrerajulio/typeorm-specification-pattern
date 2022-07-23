@@ -1,23 +1,17 @@
-import { Brackets, SelectQueryBuilder } from "typeorm";
+import { Brackets } from "typeorm";
 
 import { AndTypeormSpecification, OrTypeormSpecification } from "./index";
 import { TypeormSpecification } from "./typeorm.specification";
 
-export abstract class CompositeTypeormSpecification<T>
-  implements TypeormSpecification<T>
+export abstract class CompositeTypeormSpecification
+  implements TypeormSpecification
 {
-  constructor(protected readonly queryBuilder: SelectQueryBuilder<T>) {}
-
-  and(left: TypeormSpecification<T>): TypeormSpecification<T> {
-    return new AndTypeormSpecification(this.queryBuilder, this, left);
+  and(left: TypeormSpecification): TypeormSpecification {
+    return new AndTypeormSpecification(this, left);
   }
 
-  or(right: TypeormSpecification<T>): TypeormSpecification<T> {
-    return new OrTypeormSpecification(this.queryBuilder, this, right);
-  }
-
-  getQueryBuilder(): SelectQueryBuilder<T> {
-    return this.queryBuilder;
+  or(right: TypeormSpecification): TypeormSpecification {
+    return new OrTypeormSpecification(this, right);
   }
 
   abstract getConditions(): Brackets;

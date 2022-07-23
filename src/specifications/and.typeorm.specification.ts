@@ -1,21 +1,17 @@
-import { Brackets, SelectQueryBuilder } from "typeorm";
+import { Brackets } from "typeorm";
 
 import { CompositeTypeormSpecification } from "./index";
 import { TypeormSpecification } from "./typeorm.specification";
 
-export class AndTypeormSpecification<T>
-  extends CompositeTypeormSpecification<T>
-  implements TypeormSpecification<T>
+export class AndTypeormSpecification
+  extends CompositeTypeormSpecification
+  implements TypeormSpecification
 {
-  protected left: TypeormSpecification<T>;
-  protected right: TypeormSpecification<T>;
+  protected left: TypeormSpecification;
+  protected right: TypeormSpecification;
 
-  constructor(
-    protected readonly queryBuilder: SelectQueryBuilder<any>,
-    left: TypeormSpecification<T>,
-    right: TypeormSpecification<T>
-  ) {
-    super(queryBuilder);
+  constructor(left: TypeormSpecification, right: TypeormSpecification) {
+    super();
     this.left = left;
     this.right = right;
   }
@@ -26,11 +22,5 @@ export class AndTypeormSpecification<T>
         .andWhere(this.left.getConditions())
         .andWhere(this.right.getConditions())
     );
-  }
-
-  getQueryBuilder(): SelectQueryBuilder<any> {
-    return this.queryBuilder
-      .andWhere(this.left.getConditions())
-      .andWhere(this.right.getConditions());
   }
 }

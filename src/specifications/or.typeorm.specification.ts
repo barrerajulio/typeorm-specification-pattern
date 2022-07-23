@@ -1,34 +1,24 @@
-import { Brackets, SelectQueryBuilder } from "typeorm";
+import { Brackets } from "typeorm";
 
 import { CompositeTypeormSpecification } from "./index";
 import { TypeormSpecification } from "./typeorm.specification";
 
-export class OrTypeormSpecification<T>
-  extends CompositeTypeormSpecification<T>
-  implements TypeormSpecification<T>
+export class OrTypeormSpecification
+  extends CompositeTypeormSpecification
+  implements TypeormSpecification
 {
-  protected left: TypeormSpecification<T>;
-  protected right: TypeormSpecification<T>;
+  protected left: TypeormSpecification;
+  protected right: TypeormSpecification;
 
-  constructor(
-    protected readonly queryBuilder: SelectQueryBuilder<any>,
-    left: TypeormSpecification<T>,
-    right: TypeormSpecification<T>
-  ) {
-    super(queryBuilder);
+  constructor(left: TypeormSpecification, right: TypeormSpecification) {
+    super();
     this.left = left;
     this.right = right;
   }
 
   getConditions(): Brackets {
     return new Brackets((qb) =>
-      qb.orWhere(this.left.getConditions(), this.right.getConditions())
+      qb.orWhere(this.left.getConditions()).orWhere(this.right.getConditions())
     );
-  }
-
-  getQueryBuilder(): SelectQueryBuilder<any> {
-    return this.queryBuilder
-      .orWhere(this.left.getConditions())
-      .orWhere(this.right.getConditions());
   }
 }

@@ -1,4 +1,13 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryColumn,
+} from "typeorm";
+
+import { OtherEntity } from "./other.entity";
 
 @Entity({
   name: "demo",
@@ -15,4 +24,8 @@ export class DemoEntity extends BaseEntity {
     type: "varchar",
   })
   name!: string;
+
+  @OneToOne(() => OtherEntity, (other) => other.demo)
+  @JoinColumn({ name: "other_id" })
+  other!: OtherEntity;
 }

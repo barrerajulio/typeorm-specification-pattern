@@ -1,20 +1,19 @@
-import { Brackets, SelectQueryBuilder } from "typeorm";
+import { Brackets } from "typeorm";
 
 import { CompositeTypeormSpecification } from "../specifications";
 import { TypeormSpecification } from "../specifications/typeorm.specification";
 
-export class OfNameTypeormSpecification<T>
-  extends CompositeTypeormSpecification<T>
-  implements TypeormSpecification<T>
+export class OfNameTypeormSpecification
+  extends CompositeTypeormSpecification
+  implements TypeormSpecification
 {
-  constructor(
-    protected readonly queryBuilder: SelectQueryBuilder<any>,
-    private readonly name: string
-  ) {
-    super(queryBuilder);
+  constructor(private readonly name: string) {
+    super();
   }
 
   getConditions(): Brackets {
-    return new Brackets((qb) => qb.where("name = :name", { name: this.name }));
+    return new Brackets((qb) =>
+      qb.where("other.name = :name", { name: this.name })
+    );
   }
 }
